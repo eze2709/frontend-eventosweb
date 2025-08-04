@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2>Listado de Eventos</h2>
+<a routerLink="/dashboard/nuevo" class="btn btn-success">Nuevo Evento</a>
+  <table class="table table-striped mt-3" *ngIf="eventos.length > 0">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let evento of eventos">
+        <td>{{ evento.title }}</td>
+        <td>{{ evento.description }}</td>
+        <td>{{ evento.start_date }}</td>
+        <td>{{ evento.end_date }}</td>
+        <td>
+          <a [routerLink]="['/dashboard', 'ver', evento.id]" class="btn btn-sm btn-info">Ver</a>
+          <a [routerLink]="['/dashboard', 'editar', evento.id]" class="btn btn-sm btn-warning">Editar</a>
+          <button class="btn btn-sm btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="eventos.length === 0" class="alert alert-info">
+    No hay eventos disponibles.
+  </div>
+</div>

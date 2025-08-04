@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2>{{ isEditMode ? 'Editar Evento' : 'Nuevo Evento' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label for="title" class="form-label">Título</label>
+      <input id="title" type="text" class="form-control" formControlName="title">
+      <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="text-danger">
+        El título es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea id="description" class="form-control" formControlName="description"></textarea>
+      <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+        La descripción es obligatoria.
+      </div>
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="date" class="form-label">Fecha</label>
+      <input id="date" type="date" class="form-control" formControlName="date">
+      <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched" class="text-danger">
+        La fecha es obligatoria.
+      </div>
+    </div> -->
+
+    <!-- Ejemplo de campos para fechas -->
+    <div class="mb-3">
+      <label for="start_date" class="form-label">Fecha de Inicio</label>
+      <input id="start_date" type="date" class="form-control" formControlName="start_date">
+    </div>
+
+    <div class="mb-3">
+      <label for="end_date" class="form-label">Fecha de Fin</label>
+      <input id="end_date" type="date" class="form-control" formControlName="end_date">
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      {{ isEditMode ? 'Actualizar' : 'Crear' }}
+    </button>
+  </form>
+</div>
+
