@@ -1,1 +1,60 @@
-<p>register works!</p>
+<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 450px;">
+    <div class="card-header bg-success text-white text-center rounded-top">
+      <h3>Crear Cuenta</h3>
+      <p class="text-white-50">Registrate para continuar</p>
+    </div>
+    <div class="card-body bg-light rounded-bottom">
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nombre</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Juan Pérez">
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger small mt-1">
+            Nombre es requerido.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Correo electrónico</label>
+          <input type="email" formControlName="email" class="form-control" placeholder="usuario@correo.com">
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger small mt-1">
+            Email inválido.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Contraseña</label>
+          <input type="password" formControlName="password" class="form-control" placeholder="••••••••">
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small mt-1">
+            Contraseña requerida.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Confirmar Contraseña</label>
+          <input type="password" formControlName="password_confirmation" class="form-control" placeholder="••••••••">
+          <div *ngIf="registerForm.hasError('notMatching')" class="text-danger small mt-1">
+            Las contraseñas no coinciden.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100" [disabled]="registerForm.invalid">
+          <i class="bi bi-person-plus-fill"></i> Crear cuenta
+        </button>
+
+        <div class="text-danger text-center mt-2" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <div class="text-success text-center mt-2" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+      </form>
+      <div class="text-center mt-3">
+        <button routerLink="/login" class="btn btn-outline-primary w-100">
+          <i class="bi bi-arrow-left"></i> Volver al login
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

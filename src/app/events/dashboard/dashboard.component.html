@@ -1,32 +1,94 @@
-<div class="container mt-4">
-  <h2>Listado de Eventos</h2>
-<a routerLink="/dashboard/nuevo" class="btn btn-success">Nuevo Evento</a>
-  <table class="table table-striped mt-3" *ngIf="eventos.length > 0">
-    <thead>
-      <tr>
-        <th>Título</th>
-        <th>Descripción</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let evento of eventos">
-        <td>{{ evento.title }}</td>
-        <td>{{ evento.description }}</td>
-        <td>{{ evento.start_date }}</td>
-        <td>{{ evento.end_date }}</td>
-        <td>
-          <a [routerLink]="['/dashboard', 'ver', evento.id]" class="btn btn-sm btn-info">Ver</a>
-          <a [routerLink]="['/dashboard', 'editar', evento.id]" class="btn btn-sm btn-warning">Editar</a>
-          <button class="btn btn-sm btn-danger">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="eventos.length === 0" class="alert alert-info">
-    No hay eventos disponibles.
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow rounded-4 mb-4 px-3 py-2">
+  <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between">
+    <!-- Usuario -->
+    <div class="d-flex align-items-center gap-2">
+      <img src="https://ui-avatars.com/api/?name={{ usuario?.name || 'U' }}&background=0D8ABC&color=fff&size=48"
+           alt="Avatar" class="rounded-circle border border-2 border-light" width="48" height="48">
+      <div class="d-none d-sm-block">
+        <span class="fw-bold text-white">
+          <i class="bi bi-person-circle"></i> {{ usuario?.name || 'Usuario' }}
+        </span>
+        <div class="text-white-50 small">
+          <i class="bi bi-envelope"></i> {{ usuario?.email || 'correo@ejemplo.com' }}
+        </div>
+      </div>
+      <span class="badge bg-success ms-2 d-none d-md-inline">En línea</span>
+    </div>
+    <!-- Título -->
+    <span class="navbar-brand mx-auto fw-bold fs-4 text-warning d-none d-lg-block">
+      <i class="bi bi-stars"></i> Listado de Eventos
+    </span>
+    <!-- Acciones -->
+    <div class="d-flex align-items-center gap-2">
+      <a routerLink="/dashboard/nuevo" class="btn btn-success shadow-sm">
+        <i class="bi bi-plus-circle"></i> Nuevo Evento
+      </a>
+      <button (click)="logout()" class="btn btn-outline-light shadow-sm">
+        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+      </button>
+    </div>
   </div>
+</nav>
+
+<div class="container py-2">
+  <div class="d-block d-lg-none text-center mb-3">
+    <span class="fw-bold text-primary fs-5">
+      <i class="bi bi-stars text-warning"></i> Listado de Eventos
+    </span>
+  </div>
+  <div *ngIf="eventos.length > 0; else noEventos">
+    <div class="accordion" id="eventosAccordion">
+      <div class="accordion-item mb-4 shadow-lg border-0 rounded-4 overflow-hidden"
+           *ngFor="let evento of eventos; let i = index"
+           [ngClass]="{'bg-success bg-opacity-25': isEventoPasado(evento)}">
+        <h2 class="accordion-header" id="heading{{i}}">
+          <button class="accordion-button collapsed bg-gradient bg-primary bg-opacity-75 text-white fw-bold fs-5"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse'+i"
+                  aria-expanded="false"
+                  [attr.aria-controls]="'collapse'+i">
+            <div class="d-flex flex-column flex-md-row w-100 justify-content-between align-items-center">
+              <span>
+                <i class="bi bi-calendar2-event-fill me-2 text-warning"></i>
+                {{ evento.title }}
+              </span>
+              <span class="badge bg-info text-dark border border-2 border-primary mt-2 mt-md-0 px-3 py-2 fs-6 shadow-sm">
+                <i class="bi bi-calendar-event"></i>
+                {{ evento.start_date | date:'dd/MM/yyyy' }} &rarr; {{ evento.end_date | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+          </button>
+        </h2>
+        <div [id]="'collapse'+i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading'+i"
+             data-bs-parent="#eventosAccordion">
+          <div class="accordion-body bg-light">
+            <div class="mb-3">
+              <span class="badge bg-secondary mb-2">
+                <i class="bi bi-person-circle"></i> ID Evento: {{ evento.id }}
+              </span>
+              <p class="mb-2">
+                <strong>Descripción:</strong>
+                <span class="text-muted">{{ evento.description || 'Sin descripción' }}</span>
+              </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <a [routerLink]="['/dashboard', 'editar', evento.id]" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-pencil-square"></i> Editar
+              </a>
+              <button class="btn btn-danger btn-sm shadow-sm" (click)="eliminarEvento(evento.id)">
+                <i class="bi bi-trash"></i> Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noEventos>
+    <div class="alert alert-info text-center mt-5 shadow-sm">
+      <i class="bi bi-info-circle"></i> No hay eventos disponibles.
+    </div>
+  </ng-template>
 </div>

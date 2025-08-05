@@ -31,4 +31,12 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+
+
+    getUser() {
+      return this.http.get(`${this.api}/user`, { withCredentials: true });
+    }
+
+
+
 }

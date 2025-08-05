@@ -7,18 +7,16 @@ import { RegisterComponent } from './auth/register/register.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
-    path: 'login',
+    path: '',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-  },
+},
   {
     path: 'dashboard',
     loadChildren: () => import('./events/events.module').then(m => m.EventsModule)
-  }
+  },
+  { path: '**', redirectTo: 'login' }
 ];
+
 
 
 @NgModule({
