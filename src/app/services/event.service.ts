@@ -29,4 +29,10 @@ export class EventService {
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  getEventos(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/events`);
+}
+
+
 }
